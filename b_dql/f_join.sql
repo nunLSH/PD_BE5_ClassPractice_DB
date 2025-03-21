@@ -59,11 +59,37 @@ from employee e
 join department d on(e.dept_code = d.dept_id)
 join location l on(d.location_id = l.local_code);
 
+# ASIA 지역에서 근무하는 사원 중 급여가 500만원 미만인 모든 사원을 조회하시오.
+SELECT emp_id, emp_name, salary, local_name
+FROM employee e
+JOIN department d ON (e.dept_code = d.dept_id)
+JOIN location l ON (d.location_id = l.local_code)
+WHERE local_name LIKE "%ASIA%"
+and salary < 5000000;
 
+# outer join
+# 특정 행의 모든 join 조건식이 false 반환하더라도 result set에 추가
+# left join
+select emp_id, emp_name, dept_title
+from employee e
+join DEPARTMENT d on (e.DEPT_CODE  = d.DEPT_ID);  # e.dept_code null인 경우는 안 나
 
+select emp_id, emp_name, dept_title
+from employee e
+left join DEPARTMENT d on (e.DEPT_CODE  = d.DEPT_ID);  # null인 경우도 나옴. (employee 기)
 
+# right join
+select emp_id, emp_name, dept_title
+from employee e
+right join DEPARTMENT d on (e.DEPT_CODE  = d.DEPT_ID); # department 기
 
+# self join
+# employee 테이블에서 매니저 이름을 조회하는 쿼리를 작성하시오.
+select emp_name, manager_id,
+(select emp_name from employee where emp_id = e.manager_id) as '매니저 이름'
+from employee e;
 
-
-
+select e.emp_name, e.manager_id, e2.emp_name as '매니저 이름'
+from employee e
+left join employee e2 on(e.manager_id = e2.emp_id);
 
